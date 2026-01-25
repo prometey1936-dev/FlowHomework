@@ -1,6 +1,7 @@
 package otus.homework.flowcats
 
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
 class CatsRepository(
@@ -14,5 +15,7 @@ class CatsRepository(
             emit(latestNews)
             delay(refreshIntervalMs)
         }
+    }.catch { throwable ->
+        throw throwable
     }
 }
