@@ -1,6 +1,7 @@
 package otus.homework.flowcats
 
 import androidx.lifecycle.*
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,8 +23,10 @@ class CatsViewModel(
                 catsRepository.listenForCatFacts().collect { fact ->
                     _catsStateFlow.value = Result.Success(fact)
                 }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
-                _catsStateFlow.value = Result.Error(e)
+                    _catsStateFlow.value = Result.Error(e)
             }
         }
     }
